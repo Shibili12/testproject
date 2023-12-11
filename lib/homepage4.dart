@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:testproject/homescreen.dart';
 
 class CustomShapePainter extends StatelessWidget {
   @override
@@ -132,7 +133,10 @@ class CustomShapePainter extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                  },
                   child: Text("Login"),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green[900],
