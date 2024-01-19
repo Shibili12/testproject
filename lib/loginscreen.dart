@@ -135,7 +135,7 @@ class CustomShapePainter extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => HomeScreen()));
+                        MaterialPageRoute(builder: (context) => HomeScreen2()));
                   },
                   child: Text("Login"),
                   style: ElevatedButton.styleFrom(
