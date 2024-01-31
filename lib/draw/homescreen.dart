@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:testproject/widgets/my_buttons.dart';
+import 'package:testproject/draw/widgets/my_buttons.dart';
 
 class HomeScreen2 extends StatefulWidget {
   const HomeScreen2({super.key});

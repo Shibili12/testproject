@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:testproject/animation_example/animatedposition_example.dart';
+import 'package:testproject/animation_example/hero_animation_hompage.dart';
+import 'package:testproject/animation_example/staggered_animation_example.dart';
+import 'package:testproject/animation_example/using_package_example.dart';
 
 import 'package:testproject/loginscreen.dart';
 
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(useMaterial3: false),
       debugShowCheckedModeBanner: false,
-      home: CustomShapePainter(),
+      home: Opencontainerexample(),
     );
   }
 }
