@@ -40,6 +40,8 @@ dependencies:
   google_fonts: ^6.1.0
   font_awesome_flutter: ^10.6.0
   animations: ^2.0.11
+  http: ^1.2.0
+  flutter_stripe: ^10.0.0
 
 dev_dependencies:
   flutter_test:

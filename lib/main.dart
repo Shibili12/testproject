@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:testproject/animation_example/animatedposition_example.dart';
 import 'package:testproject/animation_example/hero_animation_hompage.dart';
 import 'package:testproject/animation_example/staggered_animation_example.dart';
 import 'package:testproject/animation_example/using_package_example.dart';
+import 'package:testproject/stripe_payment_integration/apikeys.dart';
+import 'package:testproject/stripe_payment_integration/payment_homescreen.dart';
 
-import 'package:testproject/loginscreen.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = Apikeys.publishableKey;
+  await Stripe.instance.applySettings();
   runApp(const MyApp());
 }
 
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(useMaterial3: false),
       debugShowCheckedModeBanner: false,
-      home: Opencontainerexample(),
+      home: PaymentHomescreen(),
     );
   }
 }
