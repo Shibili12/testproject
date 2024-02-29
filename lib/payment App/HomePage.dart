@@ -8,6 +8,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 //import 'package:flutter_stripe/flutter_stripe.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:testproject/payment%20App/notification_page.dart';
 import 'package:testproject/payment%20App/payment_historypage.dart';
 import 'package:testproject/payment%20App/theme%20components/Palette.dart';
 import 'Vacation.dart';
@@ -189,6 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Notificationpage()));
                           //Config.dealerOrderEdit = false;
                           /* Navigator.push(context,
                       MaterialPageRoute(builder: (context) =>  NewOrder()));*/
@@ -577,18 +580,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void displayPaymentsheet() async {
     try {
-      await Stripe.instance.presentPaymentSheet().then((value) {
-        print('success');
-      }).onError((error, stackTrace) {
-        if (error is StripeException) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${error.error.localizedMessage}')),
-          );
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Stripe Error: $error')),
-          );
-        }
+      await Stripe.instance.presentPaymentSheet().then((e) {
+        Stripe.instance.confirmPaymentSheetPayment();
       });
     } catch (e) {
       print("ERROR" + e.toString());
