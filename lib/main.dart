@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:testproject/animation_example/animatedposition_example.dart';
 import 'package:testproject/animation_example/hero_animation_hompage.dart';
@@ -13,6 +14,7 @@ import 'package:testproject/qrcode/qrcode_generator.dart';
 
 import 'package:testproject/stripe_payment_integration/apikeys.dart';
 import 'package:testproject/stripe_payment_integration/payment_homescreen.dart';
+import 'package:testproject/travel%20log/bloc/travellog_bloc.dart';
 import 'package:testproject/travel%20log/travellog.dart';
 
 void main() async {
@@ -28,15 +30,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          useMaterial3: false,
-          appBarTheme: const AppBarTheme(
-              elevation: 1,
-              // backgroundColor: Palette.ToDoRed,
-              iconTheme: IconThemeData(color: Colors.white))),
-      debugShowCheckedModeBanner: false,
-      home: TravelLog(),
+    return BlocProvider(
+      create: (context) => TravellogBloc(),
+      child: MaterialApp(
+        theme: ThemeData(
+            useMaterial3: false,
+            appBarTheme: const AppBarTheme(
+                elevation: 1,
+                // backgroundColor: Palette.ToDoRed,
+                iconTheme: IconThemeData(color: Colors.white))),
+        debugShowCheckedModeBanner: false,
+        home: TravelLog(),
+      ),
     );
   }
 }

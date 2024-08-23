@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:testproject/travel%20log/bloc/travellog_bloc.dart';
 import 'package:testproject/travel%20log/model/data.dart';
 import 'package:testproject/travel%20log/model/travellogmodel.dart';
 import 'package:testproject/travel%20log/root.dart';
@@ -14,12 +16,8 @@ class _TravelLogState extends State<TravelLog> {
   late List<TravelLogModel> travelLogs;
   @override
   void initState() {
-    travelLogs = gettravellog();
+    context.read<TravellogBloc>().add(GetTravellogs());
     super.initState();
-  }
-
-  gettravellog() {
-    return travelLogData.map((data) => TravelLogModel.fromMap(data)).toList();
   }
 
   @override
@@ -101,23 +99,48 @@ class _TravelLogState extends State<TravelLog> {
                       ]),
                 ),
               ))),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: travelLogs.asMap().entries.map((entry) {
-            int index = entry.key;
-            TravelLogModel log = entry.value;
-            return CustomPaint(
-              size: const Size(double.infinity, 160),
-              painter: CombinedPainter(
-                  possition: index % 2,
-                  startTime: log.startTime,
-                  endTime: log.endTime),
-              child: _Buildlogdetails(log),
+      body:
+          BlocBuilder<TravellogBloc, TravellogState>(builder: (context, state) {
+        switch (state.runtimeType) {
+          case Travellogloading:
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }).toList(),
-        ),
-      ),
+          case TravellogLoaded:
+            final newstate = state as TravellogLoaded;
+            return ListView.builder(
+                itemCount: newstate.travellogs.length,
+                itemBuilder: (context, index) {
+                  return CustomPaint(
+                    size: const Size(double.infinity, 160),
+                    painter: CombinedPainter(
+                        possition: index % 2,
+                        startTime: newstate.travellogs[index].startTime,
+                        endTime: newstate.travellogs[index].endTime),
+                    child: _Buildlogdetails(newstate.travellogs[index]),
+                  );
+                });
+          default:
+            return const SizedBox();
+        }
+      }),
+      // body: SingleChildScrollView(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: travelLogs.asMap().entries.map((entry) {
+      //       int index = entry.key;
+      //       TravelLogModel log = entry.value;
+      //       return CustomPaint(
+      //         size: const Size(double.infinity, 160),
+      //         painter: CombinedPainter(
+      //             possition: index % 2,
+      //             startTime: log.startTime,
+      //             endTime: log.endTime),
+      //         child: _Buildlogdetails(log),
+      //       );
+      //     }).toList(),
+      //   ),
+      // ),
     );
   }
 
