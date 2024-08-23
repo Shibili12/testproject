@@ -1,8 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:testproject/travel%20log/model/data.dart';
+import 'package:testproject/travel%20log/model/travellogmodel.dart';
 import 'package:testproject/travel%20log/root.dart';
 
-class TravelLog extends StatelessWidget {
+class TravelLog extends StatefulWidget {
   TravelLog({super.key});
+
+  @override
+  State<TravelLog> createState() => _TravelLogState();
+}
+
+class _TravelLogState extends State<TravelLog> {
+  late List<TravelLogModel> travelLogs;
+  @override
+  void initState() {
+    travelLogs = gettravellog();
+    super.initState();
+  }
+
+  gettravellog() {
+    return travelLogData.map((data) => TravelLogModel.fromMap(data)).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,48 +104,24 @@ class TravelLog extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CustomPaint(
-                size: Size(double.infinity, 160),
-                painter: CombinedPainter(),
-                child:
-                    _Buildlogdetails('Check In', 'VHMV+F6C', "Redmi 6", "99%")),
-            CustomPaint(
-                size: Size(double.infinity, 160),
-                painter: CombinedPainter2(),
-                child: _Buildlogdetails(
-                    'Arravinthan Electricals', 'RPMV+633', "Redmi 6", "92%")),
-            CustomPaint(
-              size: Size(double.infinity, 160),
-              painter: CombinedPainter(),
-              child: _Buildlogdetails(
-                  'Mothakkada Electricals', 'VPX8+P8X', "Redmi 6", "89%"),
-            ),
-            CustomPaint(
-              size: Size(double.infinity, 160),
-              painter: CombinedPainter2(),
-              child: _Buildlogdetails(
-                  'Aryan Electricals', 'YFKU+F6C', "Redmi 6", "75%"),
-            ),
-            CustomPaint(
-              size: Size(double.infinity, 160),
-              painter: CombinedPainter(),
-              child: _Buildlogdetails(
-                  'Sabeel traders', 'DGJ+F6C', "Redmi 6", "65%"),
-            ),
-            CustomPaint(
-              size: Size(double.infinity, 160),
-              painter: CombinedPainter2(),
-              child:
-                  _Buildlogdetails('Abc steels', 'CFHJ+F6HC', "Redmi 6", "50%"),
-            ),
-          ],
+          children: travelLogs.asMap().entries.map((entry) {
+            int index = entry.key;
+            TravelLogModel log = entry.value;
+            return CustomPaint(
+              size: const Size(double.infinity, 160),
+              painter: CombinedPainter(
+                  possition: index % 2,
+                  startTime: log.startTime,
+                  endTime: log.endTime),
+              child: _Buildlogdetails(log),
+            );
+          }).toList(),
         ),
       ),
     );
   }
 
-  _Buildlogdetails(String log, String logid, String phone, String battery) {
+  Widget _Buildlogdetails(TravelLogModel log) {
     return Container(
       width: double.infinity,
       height: 160,
@@ -138,57 +132,62 @@ class TravelLog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              log,
+              log.log,
               style: TextStyle(
-                  color: Colors.indigo[400],
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold),
+                color: Colors.indigo[400],
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
-              logid,
+              log.logId,
               style: const TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold),
+                color: Colors.grey,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Container(
               height: 25,
               width: 100,
               decoration: BoxDecoration(
-                  border: Border.all(width: .2),
-                  borderRadius: BorderRadius.circular(4)),
+                border: Border.all(width: .2),
+                borderRadius: BorderRadius.circular(4),
+              ),
               child: Row(
                 children: [
                   Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Text(
-                          phone,
-                          style: TextStyle(fontSize: 10),
-                        ),
-                      )),
-                  Flexible(
-                      child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Divider(),
-                      Icon(
-                        Icons.battery_charging_full,
-                        color: Colors.green,
-                        size: 10,
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        log.phone,
+                        style: const TextStyle(fontSize: 10),
                       ),
-                      Text(
-                        battery,
-                        style: TextStyle(fontSize: 10),
-                      )
-                    ],
-                  ))
+                    ),
+                  ),
+                  Flexible(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Divider(),
+                        const Icon(
+                          Icons.battery_charging_full,
+                          color: Colors.green,
+                          size: 10,
+                        ),
+                        Text(
+                          log.battery,
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
